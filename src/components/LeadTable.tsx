@@ -1,6 +1,7 @@
 'use client';
 
 import { Lead, PRIORITY_LABELS, PRIORITY_COLORS } from '@/types/lead';
+import { Eye, Pencil, Trash2 } from 'lucide-react';
 
 interface LeadTableProps {
   leads: Lead[];
@@ -9,69 +10,124 @@ interface LeadTableProps {
   onDelete: (lead: Lead) => void;
 }
 
+function formatPhone(phone: string): string {
+  if (phone.length >= 9) {
+    return phone.slice(0, 3) + ' •••• ' + phone.slice(-4);
+  }
+  return phone;
+}
+
+const thClass = "py-3 px-3 font-semibold whitespace-nowrap cursor-pointer select-none";
+const tdClass = "py-2 px-3 whitespace-nowrap";
+
 export default function LeadTable({ leads, onDetail, onEdit, onDelete }: LeadTableProps) {
   return (
     <div className="flex-1 overflow-auto px-6 py-4">
-      <table className="w-full text-sm">
+      <table className="w-full text-sm" style={{ borderCollapse: 'collapse' }}>
         <thead>
-          <tr className="border-b text-left">
-            <th className="py-3 pr-4 font-medium text-slate-500 whitespace-nowrap">线索编号</th>
-            <th className="py-3 pr-4 font-medium text-slate-500 whitespace-nowrap">创建时间</th>
-            <th className="py-3 pr-4 font-medium text-slate-500 whitespace-nowrap">姓名</th>
-            <th className="py-3 pr-4 font-medium text-slate-500 whitespace-nowrap">电话</th>
-            <th className="py-3 pr-4 font-medium text-slate-500 whitespace-nowrap">优先级</th>
-            <th className="py-3 pr-4 font-medium text-slate-500 whitespace-nowrap">客户来源</th>
-            <th className="py-3 pr-4 font-medium text-slate-500 whitespace-nowrap">跟进人</th>
-            <th className="py-3 pr-4 font-medium text-slate-500 whitespace-nowrap text-right">操作</th>
+          <tr style={{ borderBottom: '2px solid #2e6cf7' }}>
+            <th className={thClass} style={{ color: '#4e5969', fontSize: '12px' }}>
+              线索编号 <span className="inline-block ml-0.5 text-[10px] align-middle cursor-pointer select-none" style={{ color: '#c9cdd4' }}>▼</span>
+            </th>
+            <th className={thClass} style={{ color: '#4e5969', fontSize: '12px' }}>
+              创建时间 <span className="inline-block ml-0.5 text-[10px] align-middle cursor-pointer select-none" style={{ color: '#c9cdd4' }}>▼</span>
+            </th>
+            <th className={thClass} style={{ color: '#4e5969', fontSize: '12px' }}>
+              姓名
+            </th>
+            <th className={thClass} style={{ color: '#4e5969', fontSize: '12px' }}>
+              电话
+            </th>
+            <th className={thClass} style={{ color: '#4e5969', fontSize: '12px' }}>
+              优先级
+            </th>
+            <th className={thClass} style={{ color: '#4e5969', fontSize: '12px' }}>
+              客户来源
+            </th>
+            <th className={thClass} style={{ color: '#4e5969', fontSize: '12px' }}>
+              跟进人
+            </th>
+            <th className={`${thClass} text-right`} style={{ color: '#4e5969', fontSize: '12px' }}>
+              操作
+            </th>
           </tr>
         </thead>
         <tbody>
           {leads.length === 0 ? (
             <tr>
-              <td colSpan={8} className="py-16 text-center text-slate-400">
+              <td colSpan={8} className="py-16 text-center" style={{ color: '#86909c' }}>
                 暂无数据
               </td>
             </tr>
           ) : (
-            leads.map((lead) => (
-              <tr key={lead.id} className="border-b hover:bg-slate-50 transition-colors">
-                <td className="py-3 pr-4 font-mono text-xs text-slate-500 whitespace-nowrap">
-                  {lead.id}
-                </td>
-                <td className="py-3 pr-4 whitespace-nowrap">{lead.createdAt}</td>
-                <td className="py-3 pr-4 whitespace-nowrap font-medium">{lead.name}</td>
-                <td className="py-3 pr-4 whitespace-nowrap font-mono text-slate-500">{lead.phone}</td>
-                <td className="py-3 pr-4 whitespace-nowrap">
-                  <span className={`inline-block px-2 py-0.5 rounded text-xs font-medium ${PRIORITY_COLORS[lead.priority]}`}>
-                    {PRIORITY_LABELS[lead.priority]}
-                  </span>
-                </td>
-                <td className="py-3 pr-4 whitespace-nowrap">{lead.source}</td>
-                <td className="py-3 pr-4 whitespace-nowrap">{lead.follower}</td>
-                <td className="py-3 pr-4 whitespace-nowrap text-right">
-                  <div className="flex items-center justify-end gap-1">
-                    <button
-                      onClick={() => onDetail(lead)}
-                      className="px-3 py-1 text-xs text-blue-600 hover:bg-blue-50 rounded transition-colors"
+            leads.map((lead, idx) => {
+              const pc = PRIORITY_COLORS[lead.priority];
+              return (
+                <tr
+                  key={lead.id}
+                  className="transition-colors group"
+                  style={{
+                    backgroundColor: idx % 2 === 1 ? '#fafbfb' : '#ffffff',
+                    borderBottom: '1px solid #e5e6eb',
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#f2f8ff'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = idx % 2 === 1 ? '#fafbfb' : '#ffffff'; }}
+                >
+                  <td className={tdClass} style={{ fontFamily: 'monospace', fontSize: '12px', color: '#86909c' }}>
+                    {lead.id}
+                  </td>
+                  <td className={tdClass} style={{ color: '#1d2129' }}>{lead.createdAt}</td>
+                  <td className={tdClass} style={{ color: '#1d2129', fontWeight: 500 }}>{lead.name}</td>
+                  <td className={tdClass} style={{ fontFamily: 'monospace', color: '#4e5969', fontSize: '13px' }}>
+                    {formatPhone(lead.phone)}
+                  </td>
+                  <td className={tdClass}>
+                    <span
+                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium"
+                      style={{
+                        backgroundColor: pc.bg,
+                        color: pc.text,
+                        borderLeft: `3px solid ${pc.bar}`,
+                      }}
                     >
-                      详情
-                    </button>
-                    <button
-                      onClick={() => onEdit(lead)}
-                      className="px-3 py-1 text-xs text-amber-600 hover:bg-amber-50 rounded transition-colors"
-                    >
-                      修改
-                    </button>
-                    <button
-                      onClick={() => onDelete(lead)}
-                      className="px-3 py-1 text-xs text-red-600 hover:bg-red-50 rounded transition-colors"
-                    >
-                      删除
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))
+                      {PRIORITY_LABELS[lead.priority]}
+                    </span>
+                  </td>
+                  <td className={tdClass} style={{ color: '#4e5969' }}>{lead.source}</td>
+                  <td className={tdClass} style={{ color: '#4e5969' }}>{lead.follower}</td>
+                  <td className={`${tdClass} text-right`}>
+                    <div className="flex items-center justify-end gap-0.5">
+                      <button
+                        onClick={() => onDetail(lead)}
+                        className="p-1.5 rounded transition-colors hover:bg-blue-50"
+                        style={{ color: '#2e6cf7' }}
+                        title="详情"
+                      >
+                        <Eye size={16} />
+                      </button>
+                      <button
+                        onClick={() => onEdit(lead)}
+                        className="p-1.5 rounded transition-colors hover:bg-gray-100"
+                        style={{ color: '#4e5969' }}
+                        title="修改"
+                      >
+                        <Pencil size={16} />
+                      </button>
+                      <button
+                        onClick={() => onDelete(lead)}
+                        className="p-1.5 rounded transition-colors hover:bg-gray-100"
+                        style={{ color: '#86909c' }}
+                        title="删除"
+                        onMouseEnter={(e) => { e.currentTarget.style.color = '#f53f3f'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.color = '#86909c'; }}
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })
           )}
         </tbody>
       </table>

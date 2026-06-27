@@ -133,16 +133,17 @@ export default function Home() {
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="bg-white border-b px-6 py-4 flex items-center justify-between shrink-0">
+        <header className="bg-white px-6 py-4 flex items-center justify-between shrink-0" style={{ borderBottom: '1px solid #e5e6eb' }}>
           <div>
-            <h2 className="text-xl font-semibold text-slate-900">线索管理</h2>
-            <p className="text-sm text-slate-500 mt-0.5">
+            <h2 className="text-xl font-semibold" style={{ color: '#1d2129' }}>线索管理</h2>
+            <p className="text-sm mt-0.5" style={{ color: '#86909c' }}>
               共 {filteredLeads.length} 条线索
             </p>
           </div>
           <button
             onClick={() => setAddOpen(true)}
-            className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-1"
+            className="px-4 py-2 text-white text-sm rounded-md transition-all hover:shadow-md hover:-translate-y-px flex items-center gap-2"
+            style={{ backgroundColor: '#2e6cf7' }}
           >
             <span className="text-lg leading-none">+</span> 新增线索
           </button>

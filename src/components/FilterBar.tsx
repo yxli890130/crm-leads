@@ -1,7 +1,5 @@
 'use client';
 
-import { LeadPriority } from '@/types/lead';
-
 interface FilterBarProps {
   createdAt: string;
   name: string;
@@ -17,6 +15,9 @@ interface FilterBarProps {
   onSearch: () => void;
   onReset: () => void;
 }
+
+const inputClass = "border rounded-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-opacity-30 transition-all";
+const labelClass = "text-xs";
 
 export default function FilterBar({
   createdAt,
@@ -34,50 +35,54 @@ export default function FilterBar({
   onReset,
 }: FilterBarProps) {
   return (
-    <div className="bg-white border-b px-6 py-4">
-      <div className="flex flex-wrap items-end gap-3">
+    <div className="px-6 py-4">
+      <div className="rounded-lg px-5 py-4 flex flex-wrap items-end gap-3" style={{ backgroundColor: '#f8f9fa' }}>
         {/* Creation date */}
         <div className="flex flex-col gap-1">
-          <label className="text-xs text-slate-500">创建时间</label>
+          <label className={labelClass} style={{ color: '#4e5969' }}>创建时间</label>
           <input
             type="date"
             value={createdAt}
             onChange={(e) => onCreatedAtChange(e.target.value)}
-            className="border rounded px-3 py-1.5 text-sm w-36 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={`${inputClass} w-36`}
+            style={{ borderColor: '#e5e6eb', color: '#1d2129' }}
           />
         </div>
 
         {/* Name */}
         <div className="flex flex-col gap-1">
-          <label className="text-xs text-slate-500">姓名</label>
+          <label className={labelClass} style={{ color: '#4e5969' }}>姓名</label>
           <input
             type="text"
             value={name}
             onChange={(e) => onNameChange(e.target.value)}
-            placeholder="模糊搜索"
-            className="border rounded px-3 py-1.5 text-sm w-28 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="输入姓名"
+            className={`${inputClass} w-28`}
+            style={{ borderColor: '#e5e6eb', color: '#1d2129' }}
           />
         </div>
 
         {/* Phone */}
         <div className="flex flex-col gap-1">
-          <label className="text-xs text-slate-500">电话</label>
+          <label className={labelClass} style={{ color: '#4e5969' }}>电话</label>
           <input
             type="text"
             value={phone}
             onChange={(e) => onPhoneChange(e.target.value)}
-            placeholder="模糊搜索"
-            className="border rounded px-3 py-1.5 text-sm w-32 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="输入电话"
+            className={`${inputClass} w-32`}
+            style={{ borderColor: '#e5e6eb', color: '#1d2129' }}
           />
         </div>
 
         {/* Source */}
         <div className="flex flex-col gap-1">
-          <label className="text-xs text-slate-500">客户来源</label>
+          <label className={labelClass} style={{ color: '#4e5969' }}>客户来源</label>
           <select
             value={source}
             onChange={(e) => onSourceChange(e.target.value)}
-            className="border rounded px-3 py-1.5 text-sm w-28 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={`${inputClass} w-28`}
+            style={{ borderColor: '#e5e6eb', color: '#1d2129' }}
           >
             <option value="">全部</option>
             {sourceOptions.map((s) => (
@@ -88,11 +93,12 @@ export default function FilterBar({
 
         {/* Priority */}
         <div className="flex flex-col gap-1">
-          <label className="text-xs text-slate-500">优先级</label>
+          <label className={labelClass} style={{ color: '#4e5969' }}>优先级</label>
           <select
             value={priority}
             onChange={(e) => onPriorityChange(e.target.value)}
-            className="border rounded px-3 py-1.5 text-sm w-24 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={`${inputClass} w-24`}
+            style={{ borderColor: '#e5e6eb', color: '#1d2129' }}
           >
             <option value="">全部</option>
             <option value="high">高</option>
@@ -102,18 +108,22 @@ export default function FilterBar({
         </div>
 
         {/* Action buttons */}
+        <div className="flex gap-2 ml-1">
         <button
           onClick={onSearch}
-          className="px-5 py-1.5 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors"
+          className="px-5 py-1.5 text-white text-sm rounded-md transition-all hover:shadow-md hover:-translate-y-px"
+          style={{ backgroundColor: '#2e6cf7', border: '1px solid #1d5bd9' }}
         >
           查询
         </button>
         <button
           onClick={onReset}
-          className="px-5 py-1.5 bg-slate-200 text-slate-700 text-sm rounded hover:bg-slate-300 transition-colors"
+          className="px-5 py-1.5 text-sm rounded-md border transition-colors"
+          style={{ color: '#4e5969', backgroundColor: '#ffffff', borderColor: '#f2f3f5' }}
         >
           重置
         </button>
+        </div>
       </div>
     </div>
   );

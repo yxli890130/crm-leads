@@ -11,6 +11,9 @@ interface LeadEditDrawerProps {
   onSave: (data: { id: string; name: string; phone: string; priority: LeadPriority; source: string; follower: string }) => void;
 }
 
+const inputClass = "w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-opacity-30 transition-all";
+const labelClass = "block text-sm mb-1";
+
 export default function LeadEditDrawer({ open, lead, onClose, onSave }: LeadEditDrawerProps) {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -47,48 +50,52 @@ export default function LeadEditDrawer({ open, lead, onClose, onSave }: LeadEdit
     <>
       <div className="fixed inset-0 bg-black/30 z-40" onClick={onClose} />
       <div className="fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 overflow-y-auto">
-        <div className="flex items-center justify-between px-6 py-4 border-b">
-          <h2 className="text-lg font-semibold">修改线索</h2>
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-600">
+        <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: '1px solid #e5e6eb' }}>
+          <h2 className="text-lg font-semibold" style={{ color: '#1d2129' }}>修改线索</h2>
+          <button onClick={onClose} style={{ color: '#86909c' }}>
             <X size={20} />
           </button>
         </div>
         <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4">
           <div>
-            <label className="block text-sm text-slate-600 mb-1">线索编号</label>
+            <label className={labelClass} style={{ color: '#4e5969' }}>线索编号</label>
             <input
               type="text"
               value={lead.id}
               disabled
-              className="w-full border rounded-lg px-3 py-2 text-sm bg-slate-50 text-slate-400 font-mono"
+              className={`${inputClass} bg-slate-50 font-mono`}
+              style={{ borderColor: '#e5e6eb', color: '#86909c' }}
             />
           </div>
           <div>
-            <label className="block text-sm text-slate-600 mb-1">姓名 *</label>
+            <label className={labelClass} style={{ color: '#4e5969' }}>姓名 *</label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={inputClass}
+              style={{ borderColor: '#e5e6eb', color: '#1d2129' }}
             />
           </div>
           <div>
-            <label className="block text-sm text-slate-600 mb-1">电话 *</label>
+            <label className={labelClass} style={{ color: '#4e5969' }}>电话 *</label>
             <input
               type="text"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               required
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={inputClass}
+              style={{ borderColor: '#e5e6eb', color: '#1d2129' }}
             />
           </div>
           <div>
-            <label className="block text-sm text-slate-600 mb-1">优先级</label>
+            <label className={labelClass} style={{ color: '#4e5969' }}>优先级</label>
             <select
               value={priority}
               onChange={(e) => setPriority(e.target.value as LeadPriority)}
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={inputClass}
+              style={{ borderColor: '#e5e6eb', color: '#1d2129' }}
             >
               <option value="high">高</option>
               <option value="medium">中</option>
@@ -96,34 +103,38 @@ export default function LeadEditDrawer({ open, lead, onClose, onSave }: LeadEdit
             </select>
           </div>
           <div>
-            <label className="block text-sm text-slate-600 mb-1">客户来源</label>
+            <label className={labelClass} style={{ color: '#4e5969' }}>客户来源</label>
             <input
               type="text"
               value={source}
               onChange={(e) => setSource(e.target.value)}
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={inputClass}
+              style={{ borderColor: '#e5e6eb', color: '#1d2129' }}
             />
           </div>
           <div>
-            <label className="block text-sm text-slate-600 mb-1">跟进人</label>
+            <label className={labelClass} style={{ color: '#4e5969' }}>跟进人</label>
             <input
               type="text"
               value={follower}
               onChange={(e) => setFollower(e.target.value)}
-              className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={inputClass}
+              style={{ borderColor: '#e5e6eb', color: '#1d2129' }}
             />
           </div>
           <div className="flex justify-end gap-3 pt-2">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-sm border rounded-lg hover:bg-slate-50 transition-colors"
+              className="px-4 py-2 text-sm border rounded-md transition-colors"
+              style={{ color: '#4e5969', borderColor: '#e5e6eb', backgroundColor: '#ffffff' }}
             >
               取消
             </button>
             <button
               type="submit"
-              className="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="px-4 py-2 text-sm text-white rounded-md transition-all hover:shadow-md hover:-translate-y-px"
+              style={{ backgroundColor: '#2e6cf7' }}
             >
               保存修改
             </button>

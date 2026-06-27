@@ -10,27 +10,36 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="w-56 bg-slate-900 text-white flex flex-col shrink-0">
-      <div className="h-16 flex items-center px-6 border-b border-slate-700">
-        <h1 className="text-lg font-bold tracking-wide">CRM Leads</h1>
+    <aside className="w-56 bg-white flex flex-col shrink-0">
+      <div className="h-16 flex items-center px-6" style={{ borderBottom: '1px solid #e5e6eb' }}>
+        <h1 className="text-lg font-bold tracking-wide" style={{ color: '#1d2129' }}>CRM Leads</h1>
       </div>
       <nav className="flex-1 py-4">
-        <ul className="space-y-1">
+        <ul className="space-y-0.5">
           {items.map((item) => (
             <li key={item.label}>
               <button
-                className={`w-full text-left px-6 py-2.5 text-sm transition-colors ${
+                className={`w-full text-left px-6 py-2.5 text-sm transition-colors flex items-center gap-2 ${
                   item.active
-                    ? 'bg-slate-700 text-white font-medium'
+                    ? 'font-medium'
                     : item.disabled
-                    ? 'text-slate-500 cursor-not-allowed'
-                    : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                    ? 'cursor-not-allowed'
+                    : 'hover:bg-gray-50'
                 }`}
+                style={
+                  item.active
+                    ? { color: '#2e6cf7', backgroundColor: '#f2f8ff', borderLeft: '3px solid #2e6cf7', paddingLeft: 'calc(1.5rem - 3px)' }
+                    : item.disabled
+                    ? { color: '#86909c', backgroundColor: 'transparent' }
+                    : { color: '#4e5969', borderLeft: '3px solid transparent', paddingLeft: 'calc(1.5rem - 3px)' }
+                }
                 disabled={item.disabled}
               >
                 {item.label}
                 {item.disabled && (
-                  <span className="ml-2 text-xs text-slate-600">开发中</span>
+                  <span className="text-xs px-1.5 py-0.5 rounded" style={{ color: '#86909c', backgroundColor: '#f2f3f5' }}>
+                    开发中
+                  </span>
                 )}
               </button>
             </li>
