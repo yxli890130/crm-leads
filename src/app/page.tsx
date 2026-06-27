@@ -1,65 +1,208 @@
-import Image from "next/image";
+'use client';
+
+import { useState, useEffect, useCallback } from 'react';
+import { Lead, LeadPriority } from '@/types/lead';
+import Sidebar from '@/components/Sidebar';
+import FilterBar from '@/components/FilterBar';
+import LeadTable from '@/components/LeadTable';
+import AddLeadModal from '@/components/AddLeadModal';
+import DeleteConfirm from '@/components/DeleteConfirm';
+import LeadDetailDrawer from '@/components/LeadDetailDrawer';
+import LeadEditDrawer from '@/components/LeadEditDrawer';
 
 export default function Home() {
+  const [leads, setLeads] = useState<Lead[]>([]);
+  const [filteredLeads, setFilteredLeads] = useState<Lead[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Filter state
+  const [createdAt, setCreatedAt] = useState('');
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [source, setSource] = useState('');
+  const [priority, setPriority] = useState('');
+
+  // Modal / Drawer state
+  const [addOpen, setAddOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<Lead | null>(null);
+  const [detailTarget, setDetailTarget] = useState<Lead | null>(null);
+  const [editTarget, setEditTarget] = useState<Lead | null>(null);
+
+  const fetchLeads = useCallback(async () => {
+    try {
+      const res = await fetch('/api/leads');
+      const data = await res.json();
+      setLeads(data);
+      setFilteredLeads(data);
+    } catch (err) {
+      console.error('Failed to fetch leads:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchLeads();
+  }, [fetchLeads]);
+
+  const doSearch = useCallback(async () => {
+    const params = new URLSearchParams();
+    if (createdAt) {
+      params.set('startDate', createdAt);
+      params.set('endDate', createdAt);
+    }
+    if (name) params.set('name', name);
+    if (phone) params.set('phone', phone);
+    if (source) params.set('source', source);
+    if (priority) params.set('priority', priority);
+
+    try {
+      const res = await fetch(`/api/leads?${params.toString()}`);
+      const data = await res.json();
+      setFilteredLeads(data);
+    } catch (err) {
+      console.error('Search failed:', err);
+    }
+  }, [createdAt, name, phone, source, priority]);
+
+  const resetFilters = () => {
+    setCreatedAt('');
+    setName('');
+    setPhone('');
+    setSource('');
+    setPriority('');
+    setFilteredLeads(leads);
+  };
+
+  const handleAdd = async (data: {
+    name: string;
+    phone: string;
+    priority: LeadPriority;
+    source: string;
+    follower: string;
+  }) => {
+    try {
+      await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      await fetchLeads();
+      setAddOpen(false);
+    } catch (err) {
+      console.error('Add failed:', err);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!deleteTarget) return;
+    try {
+      await fetch(`/api/leads?id=${deleteTarget.id}`, { method: 'DELETE' });
+      await fetchLeads();
+      setDeleteTarget(null);
+    } catch (err) {
+      console.error('Delete failed:', err);
+    }
+  };
+
+  const handleEdit = async (data: {
+    id: string;
+    name: string;
+    phone: string;
+    priority: LeadPriority;
+    source: string;
+    follower: string;
+  }) => {
+    try {
+      await fetch('/api/leads', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      await fetchLeads();
+      setEditTarget(null);
+    } catch (err) {
+      console.error('Edit failed:', err);
+    }
+  };
+
+  const sourceOptions = [...new Set(leads.map((l) => l.source))].sort();
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="flex h-screen bg-slate-50">
+      <Sidebar />
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Header */}
+        <header className="bg-white border-b px-6 py-4 flex items-center justify-between shrink-0">
+          <div>
+            <h2 className="text-xl font-semibold text-slate-900">线索管理</h2>
+            <p className="text-sm text-slate-500 mt-0.5">
+              共 {filteredLeads.length} 条线索
+            </p>
+          </div>
+          <button
+            onClick={() => setAddOpen(true)}
+            className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-1"
+          >
+            <span className="text-lg leading-none">+</span> 新增线索
+          </button>
+        </header>
+
+        <FilterBar
+          createdAt={createdAt}
+          name={name}
+          phone={phone}
+          source={source}
+          priority={priority}
+          sourceOptions={sourceOptions}
+          onCreatedAtChange={setCreatedAt}
+          onNameChange={setName}
+          onPhoneChange={setPhone}
+          onSourceChange={setSource}
+          onPriorityChange={setPriority}
+          onSearch={doSearch}
+          onReset={resetFilters}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+
+        {loading ? (
+          <div className="flex-1 flex items-center justify-center">
+            <div className="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full" />
+          </div>
+        ) : (
+          <LeadTable
+            leads={filteredLeads}
+            onDetail={setDetailTarget}
+            onEdit={setEditTarget}
+            onDelete={setDeleteTarget}
+          />
+        )}
+      </div>
+
+      <AddLeadModal
+        open={addOpen}
+        onClose={() => setAddOpen(false)}
+        onSubmit={handleAdd}
+      />
+
+      <DeleteConfirm
+        open={deleteTarget !== null}
+        leadName={deleteTarget?.name || ''}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={handleDelete}
+      />
+
+      <LeadDetailDrawer
+        open={detailTarget !== null}
+        lead={detailTarget}
+        onClose={() => setDetailTarget(null)}
+      />
+
+      <LeadEditDrawer
+        open={editTarget !== null}
+        lead={editTarget}
+        onClose={() => setEditTarget(null)}
+        onSave={handleEdit}
+      />
     </div>
   );
 }

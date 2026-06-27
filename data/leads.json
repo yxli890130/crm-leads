@@ -1,0 +1,110 @@
+[
+  {
+    "id": "LD-2026-0001",
+    "createdAt": "2026-06-10",
+    "name": "王建国",
+    "phone": "138****5678",
+    "priority": "high",
+    "source": "官网",
+    "follower": "张经理"
+  },
+  {
+    "id": "LD-2026-0002",
+    "createdAt": "2026-06-11",
+    "name": "李明",
+    "phone": "139****2345",
+    "priority": "medium",
+    "source": "电话咨询",
+    "follower": "王经理"
+  },
+  {
+    "id": "LD-2026-0003",
+    "createdAt": "2026-06-11",
+    "name": "赵丽华",
+    "phone": "137****8901",
+    "priority": "high",
+    "source": "展会",
+    "follower": "张经理"
+  },
+  {
+    "id": "LD-2026-0004",
+    "createdAt": "2026-06-12",
+    "name": "陈伟",
+    "phone": "136****3456",
+    "priority": "low",
+    "source": "朋友介绍",
+    "follower": "刘经理"
+  },
+  {
+    "id": "LD-2026-0005",
+    "createdAt": "2026-06-13",
+    "name": "刘芳",
+    "phone": "135****7890",
+    "priority": "medium",
+    "source": "官网",
+    "follower": "王经理"
+  },
+  {
+    "id": "LD-2026-0006",
+    "createdAt": "2026-06-14",
+    "name": "张强",
+    "phone": "134****1234",
+    "priority": "high",
+    "source": "广告投放",
+    "follower": "张经理"
+  },
+  {
+    "id": "LD-2026-0007",
+    "createdAt": "2026-06-14",
+    "name": "孙晓明",
+    "phone": "133****5678",
+    "priority": "low",
+    "source": "搜索引擎",
+    "follower": "刘经理"
+  },
+  {
+    "id": "LD-2026-0008",
+    "createdAt": "2026-06-15",
+    "name": "周杰",
+    "phone": "132****9012",
+    "priority": "medium",
+    "source": "电话咨询",
+    "follower": "王经理"
+  },
+  {
+    "id": "LD-2026-0009",
+    "createdAt": "2026-06-16",
+    "name": "吴婷",
+    "phone": "131****3456",
+    "priority": "high",
+    "source": "展会",
+    "follower": "张经理"
+  },
+  {
+    "id": "LD-2026-0010",
+    "createdAt": "2026-06-17",
+    "name": "郑浩",
+    "phone": "130****7890",
+    "priority": "low",
+    "source": "朋友介绍",
+    "follower": "刘经理"
+  },
+  {
+    "id": "LD-2026-0011",
+    "createdAt": "2026-06-18",
+    "name": "黄丽",
+    "phone": "152****2345",
+    "priority": "medium",
+    "source": "官网",
+    "follower": "张经理"
+  },
+  {
+    "id": "LD-2026-0012",
+    "createdAt": "2026-06-19",
+    "name": "马超",
+    "phone": "151****6789",
+    "priority": "medium",
+    "source": "广告投放",
+    "follower": "王经理"
+  }
+]
