@@ -1,0 +1,122 @@
+[
+  {
+    "id": "ORD-2026-0001",
+    "createdAt": "2026-06-15",
+    "customerName": "王建国",
+    "customerPhone": "138****5678",
+    "productId": "PRD-2026-0001",
+    "productCode": "CP-001",
+    "productName": "工业级不锈钢轴承",
+    "amount": 128.50
+  },
+  {
+    "id": "ORD-2026-0002",
+    "createdAt": "2026-06-16",
+    "customerName": "李明",
+    "customerPhone": "139****2345",
+    "productId": "PRD-2026-0003",
+    "productCode": "CP-003",
+    "productName": "液压油缸密封圈",
+    "amount": 18.80
+  },
+  {
+    "id": "ORD-2026-0003",
+    "createdAt": "2026-06-17",
+    "customerName": "赵丽华",
+    "customerPhone": "137****8901",
+    "productId": "PRD-2026-0004",
+    "productCode": "CP-004",
+    "productName": "碳纤维复合板材",
+    "amount": 356.00
+  },
+  {
+    "id": "ORD-2026-0004",
+    "createdAt": "2026-06-18",
+    "customerName": "陈伟",
+    "customerPhone": "136****3456",
+    "productId": "PRD-2026-0007",
+    "productCode": "CP-007",
+    "productName": "铝合金散热片",
+    "amount": 23.90
+  },
+  {
+    "id": "ORD-2026-0005",
+    "createdAt": "2026-06-19",
+    "customerName": "刘芳",
+    "customerPhone": "135****7890",
+    "productId": "PRD-2026-0002",
+    "productCode": "CP-002",
+    "productName": "高精度数控刀片",
+    "amount": 45.00
+  },
+  {
+    "id": "ORD-2026-0006",
+    "createdAt": "2026-06-20",
+    "customerName": "张强",
+    "customerPhone": "134****1234",
+    "productId": "PRD-2026-0008",
+    "productCode": "CP-008",
+    "productName": "精密滚珠丝杠",
+    "amount": 198.00
+  },
+  {
+    "id": "ORD-2026-0007",
+    "createdAt": "2026-06-21",
+    "customerName": "孙晓明",
+    "customerPhone": "133****5678",
+    "productId": "PRD-2026-0005",
+    "productCode": "CP-005",
+    "productName": "食品级硅胶管",
+    "amount": 12.50
+  },
+  {
+    "id": "ORD-2026-0008",
+    "createdAt": "2026-06-22",
+    "customerName": "周杰",
+    "customerPhone": "132****9012",
+    "productId": "PRD-2026-0010",
+    "productCode": "CP-010",
+    "productName": "不锈钢法兰接头",
+    "amount": 34.20
+  },
+  {
+    "id": "ORD-2026-0009",
+    "createdAt": "2026-06-23",
+    "customerName": "吴婷",
+    "customerPhone": "131****3456",
+    "productId": "PRD-2026-0012",
+    "productCode": "CP-012",
+    "productName": "高扭矩步进电机",
+    "amount": 245.80
+  },
+  {
+    "id": "ORD-2026-0010",
+    "createdAt": "2026-06-24",
+    "customerName": "郑浩",
+    "customerPhone": "130****7890",
+    "productId": "PRD-2026-0006",
+    "productCode": "CP-006",
+    "productName": "耐高温陶瓷套管",
+    "amount": 67.30
+  },
+  {
+    "id": "ORD-2026-0011",
+    "createdAt": "2026-06-25",
+    "customerName": "黄丽",
+    "customerPhone": "152****2345",
+    "productId": "PRD-2026-0009",
+    "productCode": "CP-009",
+    "productName": "工业级电磁阀",
+    "amount": 85.60
+  },
+  {
+    "id": "ORD-2026-0012",
+    "createdAt": "2026-06-26",
+    "customerName": "马超",
+    "customerPhone": "151****6789",
+    "productId": "PRD-2026-0011",
+    "productCode": "CP-011",
+    "productName": "防静电工作台垫",
+    "amount": 156.00
+  }
+]

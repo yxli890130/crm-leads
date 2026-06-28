@@ -1,0 +1,14 @@
+[
+  {
+    "id": "ROLE-001",
+    "createdAt": "2026-06-10",
+    "name": "管理员",
+    "permissions": [
+      { "page": "线索管理", "functions": ["view", "edit", "add", "delete"], "dataScope": "all" },
+      { "page": "商品管理", "functions": ["view", "edit", "add", "delete"], "dataScope": "all" },
+      { "page": "订单管理", "functions": ["view", "edit", "add", "delete"], "dataScope": "all" },
+      { "page": "数据仪表盘", "functions": ["view"], "dataScope": "all" },
+      { "page": "角色与权限管理", "functions": ["view", "edit", "add", "delete"], "dataScope": "all" }
+    ]
+  }
+]
