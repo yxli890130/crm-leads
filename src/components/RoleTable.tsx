@@ -1,6 +1,6 @@
 'use client';
 
-import { Role, ALL_PAGES, ALL_FUNCTIONS, DATA_SCOPES } from '@/types/role';
+import { Role, PagePermission, ALL_PAGES, ALL_FUNCTIONS, DATA_SCOPES } from '@/types/role';
 import { Eye, Settings, Trash2 } from 'lucide-react';
 
 interface RoleTableProps {
@@ -19,6 +19,52 @@ function permCount(role: Role): string {
     if (p.dataScope) scopes++;
   });
   return `${pages}页面 / ${funcs}功能 / ${scopes}数据`;
+}
+
+function getPageLabel(pageKey: string): string {
+  return ALL_PAGES.find((page) => page.key === pageKey)?.label || pageKey;
+}
+
+function getPermissionState(permission?: PagePermission) {
+  const functionKeys = ALL_FUNCTIONS.map((fn) => fn.key);
+  const enabledCount = permission
+    ? functionKeys.filter((key) => permission.functions.includes(key)).length
+    : 0;
+
+  if (permission && enabledCount === functionKeys.length) {
+    return {
+      icon: '✅',
+      label: '全部权限',
+      className: 'border-blue-200 bg-blue-50 text-blue-700',
+    };
+  }
+
+  if (permission && enabledCount > 0) {
+    return {
+      icon: '⚡',
+      label: '部分权限',
+      className: 'border-amber-200 bg-amber-50 text-amber-700',
+    };
+  }
+
+  return {
+    icon: '❌',
+    label: '无权限',
+    className: 'border-slate-200 bg-slate-50 text-slate-500',
+  };
+}
+
+function getPermissionTooltip(pageKey: string, permission?: PagePermission): string {
+  if (!permission || permission.functions.length === 0) {
+    return `${getPageLabel(pageKey)}：无权限`;
+  }
+
+  const enabled = permission.functions
+    .map((fn) => ALL_FUNCTIONS.find((item) => item.key === fn)?.label || fn)
+    .join('/');
+  const dataScope = DATA_SCOPES.find((scope) => scope.key === permission.dataScope)?.label || permission.dataScope;
+
+  return `${getPageLabel(pageKey)}：${enabled}｜数据：${dataScope}`;
 }
 
 export default function RoleTable({ roles, onEditName, onEditPerms, onDelete }: RoleTableProps) {
@@ -56,25 +102,24 @@ export default function RoleTable({ roles, onEditName, onEditPerms, onDelete }: 
                 <td className={tdClass} style={{ color: '#1d2129' }}>{role.createdAt}</td>
                 <td className={tdClass} style={{ color: '#1d2129', fontWeight: 500 }}>{role.name}</td>
                 <td className={tdClass}>
-                  <div className="flex flex-wrap gap-1 max-w-xl">
-                    {role.permissions.map((p, pi) => (
-                      <span
-                        key={pi}
-                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium"
-                        style={{ backgroundColor: '#e8f0ff', color: '#2e6cf7', borderLeft: '3px solid #2e6cf7' }}
-                      >
-                        {ALL_PAGES.find((pg) => pg.key === p.page)?.label || p.page}
-                        <span style={{ color: '#86909c', fontSize: '10px' }}>
-                          [{p.functions.map((f) => ALL_FUNCTIONS.find((fn) => fn.key === f)?.label || f).join('/')}]
+                  <div className="flex flex-wrap gap-1.5 max-w-3xl">
+                    {ALL_PAGES.map((page) => {
+                      const permission = role.permissions.find((p) => p.page === page.key);
+                      const state = getPermissionState(permission);
+                      const tooltip = getPermissionTooltip(page.key, permission);
+
+                      return (
+                        <span
+                          key={page.key}
+                          className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors cursor-help ${state.className}`}
+                          title={tooltip}
+                          aria-label={`${page.label}，${state.label}，${tooltip}`}
+                        >
+                          <span>{page.label}</span>
+                          <span aria-hidden="true" className="text-[11px] leading-none">{state.icon}</span>
                         </span>
-                        <span style={{ color: '#86909c', fontSize: '10px' }}>
-                          {DATA_SCOPES.find((ds) => ds.key === p.dataScope)?.label || p.dataScope}
-                        </span>
-                      </span>
-                    ))}
-                    {role.permissions.length === 0 && (
-                      <span className="text-xs" style={{ color: '#86909c' }}>未分配权限</span>
-                    )}
+                      );
+                    })}
                   </div>
                   <p className="text-xs mt-1" style={{ color: '#86909c' }}>{permCount(role)}</p>
                 </td>

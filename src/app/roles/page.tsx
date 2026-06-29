@@ -96,12 +96,12 @@ export default function RolesPage() {
     }
   };
 
-  const handleSavePermissions = async (updated: Role) => {
+  const handleSavePermissions = async (roleId: string, permissions: Role['permissions']) => {
     try {
       await fetch('/api/roles', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: updated.id, permissions: updated.permissions }),
+        body: JSON.stringify({ id: roleId, permissions }),
       });
       await fetchRoles();
       setPermTarget(null);
@@ -171,7 +171,7 @@ export default function RolesPage() {
           <RoleTable
             roles={filteredRoles}
             onEditName={(role) => { setEditNameTarget(role); setEditNameValue(role.name); }}
-            onEditPerm={(role) => setPermTarget(role)}
+            onEditPerms={(role) => setPermTarget(role)}
             onDelete={setDeleteTarget}
           />
         )}

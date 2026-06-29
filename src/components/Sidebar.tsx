@@ -1,9 +1,10 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
 
   const items = [
     { label: '线索管理', href: '/', disabled: false },
@@ -12,13 +13,14 @@ export default function Sidebar() {
     { label: '订单管理', href: '/orders', disabled: false },
     { label: '数据仪表盘', href: '/dashboard', disabled: false },
     { label: '角色管理', href: '/roles', disabled: false },
+    { label: '账号管理', href: '/accounts', disabled: false },
     { label: '数据导出', href: '/export', disabled: true },
     { label: '系统设置', href: '/settings', disabled: true },
   ];
 
   const handleClick = (href: string, disabled: boolean) => {
     if (disabled) return;
-    window.location.href = href;
+    router.push(href);
   };
 
   return (

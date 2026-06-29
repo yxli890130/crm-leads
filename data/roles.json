@@ -4,11 +4,127 @@
     "createdAt": "2026-06-10",
     "name": "管理员",
     "permissions": [
-      { "page": "线索管理", "functions": ["view", "edit", "add", "delete"], "dataScope": "all" },
-      { "page": "商品管理", "functions": ["view", "edit", "add", "delete"], "dataScope": "all" },
-      { "page": "订单管理", "functions": ["view", "edit", "add", "delete"], "dataScope": "all" },
-      { "page": "数据仪表盘", "functions": ["view"], "dataScope": "all" },
-      { "page": "角色与权限管理", "functions": ["view", "edit", "add", "delete"], "dataScope": "all" }
+      {
+        "page": "线索管理",
+        "functions": [
+          "view",
+          "edit",
+          "add",
+          "delete"
+        ],
+        "dataScope": "all"
+      },
+      {
+        "page": "商品管理",
+        "functions": [
+          "view",
+          "edit",
+          "add",
+          "delete"
+        ],
+        "dataScope": "all"
+      },
+      {
+        "page": "订单管理",
+        "functions": [
+          "view",
+          "edit",
+          "add",
+          "delete"
+        ],
+        "dataScope": "all"
+      },
+      {
+        "page": "数据仪表盘",
+        "functions": [
+          "view",
+          "edit",
+          "add",
+          "delete"
+        ],
+        "dataScope": "all"
+      },
+      {
+        "page": "角色与权限管理",
+        "functions": [
+          "view",
+          "edit",
+          "add",
+          "delete"
+        ],
+        "dataScope": "all"
+      }
+    ]
+  },
+  {
+    "id": "ROLE-002",
+    "name": "销售主管",
+    "createdAt": "2026-06-29",
+    "permissions": [
+      {
+        "page": "线索管理",
+        "functions": [
+          "view",
+          "edit",
+          "add",
+          "delete"
+        ],
+        "dataScope": "all"
+      },
+      {
+        "page": "商品管理",
+        "functions": [
+          "view",
+          "edit",
+          "add",
+          "delete"
+        ],
+        "dataScope": "all"
+      },
+      {
+        "page": "订单管理",
+        "functions": [
+          "view",
+          "edit",
+          "add",
+          "delete"
+        ],
+        "dataScope": "all"
+      }
+    ]
+  },
+  {
+    "id": "ROLE-003",
+    "name": "销售专员",
+    "createdAt": "2026-06-29",
+    "permissions": [
+      {
+        "page": "线索管理",
+        "functions": [
+          "view",
+          "edit",
+          "add",
+          "delete"
+        ],
+        "dataScope": "self"
+      },
+      {
+        "page": "商品管理",
+        "functions": [
+          "view"
+        ],
+        "dataScope": "self"
+      },
+      {
+        "page": "订单管理",
+        "functions": [
+          "view",
+          "edit",
+          "add",
+          "delete"
+        ],
+        "dataScope": "self"
+      }
     ]
   }
 ]

@@ -16,7 +16,7 @@ export const ALL_PAGES = [
   { key: '商品管理', label: '商品管理' },
   { key: '订单管理', label: '订单管理' },
   { key: '数据仪表盘', label: '数据仪表盘' },
-  { key: '角色管理', label: '角色管理' },
+  { key: '角色与权限管理', label: '角色管理' },
 ];
 
 export const ALL_FUNCTIONS = [
