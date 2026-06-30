@@ -10,7 +10,7 @@ WorkBuddy acting as temporary Owner under Boss instruction
 WorkBuddy Reviewer pass required after Owner changes; final status is review_requested until commit/push evidence is recorded.
 
 ## Status
-review_requested
+verified
 
 ## Goal
 Complete the previously unfinished crm-leads work: keep the new lightweight login flow, full phone number display, and simplified sidebar; fix any build/type blocker directly caused or exposed by this task; then save a new GitHub rollback point.
@@ -81,7 +81,7 @@ Non-scope:
 - E-SC-4: Final targeted ESLint command exited 0 with no stdout/stderr.
 - E-SC-5: Final `next build` exited 0 and listed all app routes successfully. Next.js still warns about multiple lockfiles/root inference; it is non-fatal and pre-existing environment noise.
 - E-SC-6: `git diff --check` exited 0; inspected diff is limited to auth, phone display/data, sidebar, dashboard formatter, and minimal build/lint fixes.
-- E-SC-7: Pending commit/push in next step.
+- E-SC-7: Commit `139c66d feat: 新增登录校验并完善手机号展示` created and pushed to `origin/main`; `git status --short --branch` returned `## main...origin/main` with no pending changes.
 
 ## Reviewer Feedback
 - No product scope mismatch found in inspected diff.
@@ -91,4 +91,4 @@ Non-scope:
 - Kept root warning unchanged; it does not block build and changing root config would be broader than this task.
 
 ## Next Action
-Commit and push the validated changes to `origin/main`, then record the resulting commit hash.
+Closed: task verified and rollback point `139c66d` is available on GitHub.
