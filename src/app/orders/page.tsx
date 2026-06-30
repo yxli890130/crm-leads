@@ -59,8 +59,12 @@ export default function OrdersPage() {
   }, []);
 
   useEffect(() => {
-    fetchOrders();
-    fetchLeadsAndProducts();
+    const timeoutId = window.setTimeout(() => {
+      void fetchOrders();
+      void fetchLeadsAndProducts();
+    }, 0);
+
+    return () => window.clearTimeout(timeoutId);
   }, [fetchOrders, fetchLeadsAndProducts]);
 
   const doSearch = useCallback(async () => {
@@ -180,8 +184,6 @@ export default function OrdersPage() {
         ) : (
           <OrderTable
             orders={filteredOrders}
-            leads={leads}
-            products={products}
             onDetail={setDetailTarget}
             onEdit={setEditTarget}
             onDelete={setDeleteTarget}
@@ -199,7 +201,7 @@ export default function OrdersPage() {
 
       <DeleteConfirm
         open={deleteTarget !== null}
-        leadName={deleteTarget?.orderNo || ''}
+        leadName={deleteTarget?.id || ''}
         onClose={() => setDeleteTarget(null)}
         onConfirm={handleDelete}
       />
@@ -207,8 +209,6 @@ export default function OrdersPage() {
       <OrderDetailDrawer
         open={detailTarget !== null}
         order={detailTarget}
-        leads={leads}
-        products={products}
         onClose={() => setDetailTarget(null)}
       />
 

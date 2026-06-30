@@ -3,6 +3,7 @@ export interface Order {
   createdAt: string;
   customerName: string;
   customerPhone: string;
+  leadId?: string;
   productId: string;
   productCode: string;
   productName: string;

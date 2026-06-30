@@ -10,13 +10,6 @@ interface AccountTableProps {
   onDelete: (account: Account) => void;
 }
 
-function formatPhone(phone: string): string {
-  if (phone.length >= 9) {
-    return phone.slice(0, 3) + ' •••• ' + phone.slice(-4);
-  }
-  return phone;
-}
-
 const thClass = 'py-3 px-3 font-semibold whitespace-nowrap cursor-pointer select-none';
 const tdClass = 'py-2 px-3 whitespace-nowrap';
 
@@ -62,7 +55,7 @@ export default function AccountTable({ accounts, onEdit, onResetPassword, onDele
                 </td>
                 <td className={tdClass} style={{ color: '#1d2129' }}>{account.createdAt}</td>
                 <td className={tdClass} style={{ fontFamily: 'monospace', color: '#4e5969', fontSize: '13px' }}>
-                  {formatPhone(account.phone)}
+                  {account.phone}
                 </td>
                 <td className={tdClass} style={{ color: '#1d2129', fontWeight: 500 }}>{account.name}</td>
                 <td className={tdClass}>

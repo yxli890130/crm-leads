@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { Order } from '@/types/order';
 import { X } from 'lucide-react';
 

@@ -10,13 +10,6 @@ interface LeadTableProps {
   onDelete: (lead: Lead) => void;
 }
 
-function formatPhone(phone: string): string {
-  if (phone.length >= 9) {
-    return phone.slice(0, 3) + ' •••• ' + phone.slice(-4);
-  }
-  return phone;
-}
-
 const thClass = "py-3 px-3 font-semibold whitespace-nowrap cursor-pointer select-none";
 const tdClass = "py-2 px-3 whitespace-nowrap";
 
@@ -79,7 +72,7 @@ export default function LeadTable({ leads, onDetail, onEdit, onDelete }: LeadTab
                   <td className={tdClass} style={{ color: '#1d2129' }}>{lead.createdAt}</td>
                   <td className={tdClass} style={{ color: '#1d2129', fontWeight: 500 }}>{lead.name}</td>
                   <td className={tdClass} style={{ fontFamily: 'monospace', color: '#4e5969', fontSize: '13px' }}>
-                    {formatPhone(lead.phone)}
+                    {lead.phone}
                   </td>
                   <td className={tdClass}>
                     <span

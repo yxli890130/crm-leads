@@ -304,7 +304,7 @@ export default function DashboardPage() {
                     <YAxis dataKey="name" type="category" tick={{ fontSize: 12, fill: '#4e5969' }} width={60} />
                     <Tooltip
                       contentStyle={{ borderRadius: '8px', border: '1px solid #e5e6eb', fontSize: '13px' }}
-                      formatter={(v: number) => `¥${v.toLocaleString()}`}
+                      formatter={(v) => (typeof v === 'number' ? `¥${v.toLocaleString()}` : v)}
                     />
                     <Bar dataKey="value" fill="#2e6cf7" radius={[0, 4, 4, 0]} barSize={18} />
                   </BarChart>
@@ -325,7 +325,7 @@ export default function DashboardPage() {
                     <YAxis dataKey="name" type="category" tick={{ fontSize: 12, fill: '#4e5969' }} width={60} />
                     <Tooltip
                       contentStyle={{ borderRadius: '8px', border: '1px solid #e5e6eb', fontSize: '13px' }}
-                      formatter={(v: number) => `${v}%`}
+                      formatter={(v) => (typeof v === 'number' ? `${v}%` : v)}
                     />
                     <Bar dataKey="value" fill="#00b42a" radius={[0, 4, 4, 0]} barSize={18} />
                   </BarChart>

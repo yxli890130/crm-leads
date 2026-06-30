@@ -13,8 +13,6 @@ export default function Sidebar() {
     { label: '订单管理', href: '/orders', disabled: false },
     { label: '角色管理', href: '/roles', disabled: false },
     { label: '账号管理', href: '/accounts', disabled: false },
-    { label: '数据导出', href: '/export', disabled: true },
-    { label: '系统设置', href: '/settings', disabled: true },
   ];
 
   const handleClick = (href: string, disabled: boolean) => {

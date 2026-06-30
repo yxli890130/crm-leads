@@ -26,7 +26,7 @@ export const ALL_FUNCTIONS = [
   { key: 'delete', label: '删除' },
 ];
 
-export const DATA_SCOPES = [
+export const DATA_SCOPES: { key: PagePermission['dataScope']; label: string }[] = [
   { key: 'all', label: '全部' },
   { key: 'self', label: '仅自己' },
 ];

@@ -18,11 +18,15 @@ export default function OrderEditDrawer({ open, order, leads, products, onClose,
   const [productId, setProductId] = useState('');
 
   useEffect(() => {
-    if (order) {
-      setLeadId(order.leadId);
+    if (!order) return;
+
+    const timeoutId = window.setTimeout(() => {
+      setLeadId(order.leadId || leads.find((l) => l.phone === order.customerPhone)?.id || '');
       setProductId(order.productId);
-    }
-  }, [order]);
+    }, 0);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [order, leads]);
 
   if (!open || !order) return null;
 
