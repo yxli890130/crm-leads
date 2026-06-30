@@ -1,11 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   BarChart, Bar, PieChart, Pie, Cell, FunnelChart, Funnel, LabelList,
 } from 'recharts';
-import { Eye, Phone, ShoppingCart, Target } from 'lucide-react';
+import { ArrowLeft, Eye, Phone, ShoppingCart, Target } from 'lucide-react';
 
 const SALES_DATA = [
   { date: '06-14', value: 3200 }, { date: '06-15', value: 4100 },
@@ -123,6 +124,15 @@ export default function DashboardPage() {
             <h2 className="text-xl font-semibold" style={{ color: '#1d2129' }}>数据仪表盘</h2>
             <p className="text-sm mt-0.5" style={{ color: '#86909c' }}>2026年6月 · 实时业务概览</p>
           </div>
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 px-4 py-2 text-sm rounded-md border transition-all hover:shadow-md hover:-translate-y-px"
+            style={{ color: '#2e6cf7', backgroundColor: '#ffffff', borderColor: '#2e6cf7' }}
+            aria-label="返回主页"
+          >
+            <ArrowLeft size={16} />
+            返回主页
+          </Link>
         </header>
 
         <div className="flex-1 overflow-auto p-6 space-y-6">

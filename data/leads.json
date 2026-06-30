@@ -6,7 +6,7 @@
     "phone": "138****5678",
     "priority": "high",
     "source": "官网",
-    "follower": "张经理"
+    "follower": "张进"
   },
   {
     "id": "LD-2026-0002",
@@ -15,7 +15,7 @@
     "phone": "139****2345",
     "priority": "medium",
     "source": "电话咨询",
-    "follower": "王经理"
+    "follower": "王磊"
   },
   {
     "id": "LD-2026-0003",
@@ -24,7 +24,7 @@
     "phone": "137****8901",
     "priority": "high",
     "source": "展会",
-    "follower": "张经理"
+    "follower": "陈晨"
   },
   {
     "id": "LD-2026-0004",
@@ -33,7 +33,7 @@
     "phone": "136****3456",
     "priority": "low",
     "source": "朋友介绍",
-    "follower": "刘经理"
+    "follower": "刘洋"
   },
   {
     "id": "LD-2026-0005",
@@ -42,7 +42,7 @@
     "phone": "135****7890",
     "priority": "medium",
     "source": "官网",
-    "follower": "王经理"
+    "follower": "赵敏"
   },
   {
     "id": "LD-2026-0006",
@@ -51,7 +51,7 @@
     "phone": "134****1234",
     "priority": "high",
     "source": "广告投放",
-    "follower": "张经理"
+    "follower": "张进"
   },
   {
     "id": "LD-2026-0007",
@@ -60,7 +60,7 @@
     "phone": "133****5678",
     "priority": "low",
     "source": "搜索引擎",
-    "follower": "刘经理"
+    "follower": "刘洋"
   },
   {
     "id": "LD-2026-0008",
@@ -69,7 +69,7 @@
     "phone": "132****9012",
     "priority": "medium",
     "source": "电话咨询",
-    "follower": "王经理"
+    "follower": "王磊"
   },
   {
     "id": "LD-2026-0009",
@@ -78,7 +78,7 @@
     "phone": "131****3456",
     "priority": "high",
     "source": "展会",
-    "follower": "张经理"
+    "follower": "陈晨"
   },
   {
     "id": "LD-2026-0010",
@@ -87,7 +87,7 @@
     "phone": "130****7890",
     "priority": "low",
     "source": "朋友介绍",
-    "follower": "刘经理"
+    "follower": "刘洋"
   },
   {
     "id": "LD-2026-0011",
@@ -96,7 +96,7 @@
     "phone": "152****2345",
     "priority": "medium",
     "source": "官网",
-    "follower": "张经理"
+    "follower": "张进"
   },
   {
     "id": "LD-2026-0012",
@@ -105,6 +105,6 @@
     "phone": "151****6789",
     "priority": "medium",
     "source": "广告投放",
-    "follower": "王经理"
+    "follower": "赵敏"
   }
 ]

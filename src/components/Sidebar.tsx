@@ -7,11 +7,10 @@ export default function Sidebar() {
   const router = useRouter();
 
   const items = [
+    { label: '数据仪表盘', href: '/dashboard', disabled: false },
     { label: '线索管理', href: '/', disabled: false },
     { label: '商品管理', href: '/products', disabled: false },
-    { label: '客户管理', href: '/clients', disabled: true },
     { label: '订单管理', href: '/orders', disabled: false },
-    { label: '数据仪表盘', href: '/dashboard', disabled: false },
     { label: '角色管理', href: '/roles', disabled: false },
     { label: '账号管理', href: '/accounts', disabled: false },
     { label: '数据导出', href: '/export', disabled: true },

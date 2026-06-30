@@ -103,8 +103,7 @@
         "functions": [
           "view",
           "edit",
-          "add",
-          "delete"
+          "add"
         ],
         "dataScope": "self"
       },
