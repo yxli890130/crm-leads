@@ -99,6 +99,22 @@ export async function PUT(request: NextRequest) {
       ...accounts[idx],
       password: RESET_ACCOUNT_PASSWORD,
     };
+  } else if (body.action === 'changePassword') {
+    const oldPassword = String(body.oldPassword || '').trim();
+    const newPassword = String(body.newPassword || '').trim();
+
+    if (!oldPassword || !newPassword) {
+      return NextResponse.json({ error: '原密码和新密码不能为空' }, { status: 400 });
+    }
+
+    if (accounts[idx].password !== oldPassword) {
+      return NextResponse.json({ error: '原密码不正确' }, { status: 400 });
+    }
+
+    accounts[idx] = {
+      ...accounts[idx],
+      password: newPassword,
+    };
   } else {
     const nextPhone = String(body.phone ?? accounts[idx].phone).trim();
     const nextName = String(body.name ?? accounts[idx].name).trim();

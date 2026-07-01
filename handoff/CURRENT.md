@@ -1,94 +1,73 @@
 # Task Handoff
 
 ## Task ID
-crm-leads-2026-06-30-auth-verify
+crm-leads-2026-07-01-user-center
 
 ## Owner
-WorkBuddy acting as temporary Owner under Boss instruction
+WorkBuddy temporary Owner by Boss instruction
 
 ## Reviewer
-WorkBuddy Reviewer pass required after Owner changes; final status is review_requested until commit/push evidence is recorded.
+WorkBuddy Reviewer pass required after implementation; current state is review_requested, not committed.
 
 ## Status
-verified
+review_requested
 
 ## Goal
-Complete the previously unfinished crm-leads work: keep the new lightweight login flow, full phone number display, and simplified sidebar; fix any build/type blocker directly caused or exposed by this task; then save a new GitHub rollback point.
+Adjust the left-bottom user center in the CRM sidebar so it matches the existing system style and supports read-only user information, password change, and confirmed logout.
 
 ## Success Criteria
-- SC-1: Login route/page/AuthGuard code exists and protects normal pages while allowing `/login`.
-- SC-2: Lead and account tables show full phone numbers, not masked phone numbers.
-- SC-3: Sidebar contains only active CRM entries and no disabled “数据导出” or “系统设置”.
-- SC-4: Targeted lint for touched source files passes.
-- SC-5: Full production build passes.
-- SC-6: Git diff contains only this task's intended files or clearly justified data changes.
-- SC-7: Commit and push create a new GitHub rollback point, and the final response reports the commit hash.
+- SC-1: The user center entry is in the left-bottom navigation area and shows username plus a default avatar; it must not move the existing `账号管理` navigation item.
+- SC-2: Clicking the entry opens a user information popover/modal styled consistently with the existing CRM UI, showing avatar, user name, role, phone number, and login time as read-only data.
+- SC-3: The password change action opens a modal with old password, new password, confirm password; invalid old password or mismatched new passwords show errors; valid submission updates the matching account in `data/accounts.json` through an API.
+- SC-4: Logout action opens a confirmation modal first; confirming clears local login state and routes to `/login`.
+- SC-5: Targeted ESLint passes for touched files and full `next build` passes.
+- SC-6: Git diff is limited to the user center and password-update API work.
 
 ## Scope / Non-Scope
 In scope:
-- Fix TypeScript/ESLint/build errors needed to complete the current auth/phone/sidebar work.
-- Minimal data changes needed for login test accounts and full phone display consistency.
-- Commit and push only after validation passes.
+- Sidebar user center UI and supporting modals.
+- Minimal account API extension for current-user password update.
+- Default avatar using existing UI style.
 
 Non-scope:
-- No new CRM modules.
-- No broad UI redesign.
-- No unrelated refactor or cleanup.
-- No deleting existing features beyond the already intended disabled sidebar entries.
+- Do not move `账号管理`.
+- Do not add avatar upload, editable profile, password hashing, or broad auth refactor.
+- Do not commit/push unless Boss explicitly confirms.
 
 ## Assumptions
-- Boss wants the currently uncommitted login, phone display, and sidebar simplification work completed and saved.
-- The project intentionally uses JSON files under `data/` as local persistence.
-- Commit/push is authorized because prior task explicitly required GitHub rollback points and this request asks to continue unfinished work.
+- Current auth state in localStorage is the source for current user id/phone/name/role/login time.
+- Account password is currently stored as plain text in `data/accounts.json`; update follows existing project architecture.
+- Default avatar is a styled circular avatar with the user's first-name character to avoid external assets/dependencies.
 
 ## Open Questions
 - None blocking.
 
 ## Files Changed
-- `data/leads.json` — replaced masked sample lead phone numbers with full phone numbers.
-- `data/orders.json` — replaced masked sample order phone numbers with full phone numbers.
-- `src/app/api/auth/login/route.ts` — added lightweight login API using account and role JSON data.
-- `src/app/login/page.tsx` — added login page.
-- `src/components/AuthGuard.tsx` — added route guard allowing `/login` and redirecting unauthenticated users.
-- `src/lib/auth.ts` — added localStorage auth helpers and login user types.
-- `src/app/layout.tsx` — wrapped app children in `AuthGuard`.
-- `src/components/LeadTable.tsx` — removed phone masking and renders full phone number.
-- `src/components/AccountTable.tsx` — removed phone masking and renders full phone number.
-- `src/components/Sidebar.tsx` — removed disabled `数据导出` and `系统设置` entries.
-- `src/app/dashboard/page.tsx` — adjusted Recharts tooltip formatter to avoid number-only type errors.
-- `src/app/orders/page.tsx` — fixed OrderTable/OrderDetailDrawer props mismatch, delete label, and lint-triggering effect call.
-- `src/components/OrderDetailDrawer.tsx` — removed unused React import.
-- `src/components/OrderEditDrawer.tsx` — added fallback from `customerPhone` to `leadId` and deferred effect state sync to satisfy lint.
-- `src/types/order.ts` — added optional `leadId` to support older and current order data shapes.
-- `src/types/role.ts` — typed `DATA_SCOPES` keys as `PagePermission['dataScope']`.
-- `handoff/CURRENT.md`, `handoff/templates/task-handoff.md` — created task handoff records.
+- `src/components/Sidebar.tsx` — added left-bottom user center entry, user information popover, change-password modal, logout confirmation modal, and logout routing.
+- `src/app/api/accounts/route.ts` — added `PUT action=changePassword` branch validating old password and updating the matched account password.
+- `handoff/CURRENT.md` — recorded task scope and evidence.
 
 ## Commands Run
-- `git status --short --branch && git diff --stat` — inspected existing uncommitted changes.
-- `mkdir -p handoff/templates handoff/archive` — created handoff directories because no handoff existed.
-- Targeted ESLint from project root — initially passed for auth/phone/sidebar files.
-- `next build` — initially failed on `OrderTable` props, then `deleteTarget.orderNo`, then `OrderDetailDrawer` props, then `OrderEditDrawer` `leadId`, then `DATA_SCOPES` key type.
-- `next build` after fixes — passed; route output includes `/api/auth/login` and `/login`.
-- Full targeted ESLint including all touched source files — initially failed on existing order effects; after minimal fixes passed with exit code 0.
-- `git diff --check` — passed with exit code 0.
-- Node readback for JSON data — `data/leads.json: rows=12, maskedRows=0`; `data/orders.json: rows=12, maskedRows=0`.
-- Node readback for sidebar/auth guard — `sidebar-disabled-export=false`, `sidebar-disabled-settings=false`, `login-allowed=true`, `redirect-login=true`.
+- Read `AGENTS.md`, previous `handoff/CURRENT.md`, `src/components/Sidebar.tsx`, `src/app/api/accounts/route.ts`, `src/types/account.ts`, `data/accounts.json`, and related account modal/page files.
+- `eslint src/components/Sidebar.tsx src/app/api/accounts/route.ts` — exit 0.
+- `next build` — exit 0; route list includes `/accounts`, `/api/accounts`, `/api/auth/login`, `/login`, and core CRM pages.
+- Source readback script — confirmed account nav, user info, change password, logout confirm, readonly fields, API password submit, and `/login` redirect markers are present.
+- Password data write/read/restore script — temporarily changed `AC-2026-0001` password to `tmp-check-789`, read it back successfully, restored original `123123`, and verified no diff remains in `data/accounts.json`.
+- `git diff --stat && git diff --name-only && git status --short --branch` — shows only `handoff/CURRENT.md`, `src/app/api/accounts/route.ts`, `src/components/Sidebar.tsx` modified.
 
 ## Evidence
-- E-SC-1: `src/components/AuthGuard.tsx` contains `/login` allow path and `router.replace('/login')`; final build route list includes `/api/auth/login` and `/login`.
-- E-SC-2: Node readback reports `maskedRows=0` for both lead and order JSON files; table components render `lead.phone` and `account.phone` directly.
-- E-SC-3: Node readback reports `sidebar-disabled-export=false` and `sidebar-disabled-settings=false`.
-- E-SC-4: Final targeted ESLint command exited 0 with no stdout/stderr.
-- E-SC-5: Final `next build` exited 0 and listed all app routes successfully. Next.js still warns about multiple lockfiles/root inference; it is non-fatal and pre-existing environment noise.
-- E-SC-6: `git diff --check` exited 0; inspected diff is limited to auth, phone display/data, sidebar, dashboard formatter, and minimal build/lint fixes.
-- E-SC-7: Commit `139c66d feat: 新增登录校验并完善手机号展示` created and pushed to `origin/main`; `git status --short --branch` returned `## main...origin/main` with no pending changes.
+- E-SC-1: Source readback reports `accountNav=true`; Sidebar still contains `{ label: '账号管理', href: '/accounts', disabled: false }`; user center entry remains in bottom block below nav.
+- E-SC-2: Source readback reports `userCenterPopover=true` and `readonlyFields=true`; UI uses existing CRM colors/borders/rounded/shadow/button styles.
+- E-SC-3: Source readback reports `changePassword=true` and `passwordSubmit=true`; API route has `action === 'changePassword'`, validates empty fields and old password, and updates account password. Data write/read/restore check returned `password-write-check=true` and `password-restored=true`.
+- E-SC-4: Source readback reports `logoutConfirm=true` and `logoutRoute=true`; confirm button calls logout, clears auth state, and routes to `/login`.
+- E-SC-5: Targeted ESLint exited 0; full `next build` exited 0.
+- E-SC-6: Git diff limited to `handoff/CURRENT.md`, `src/app/api/accounts/route.ts`, `src/components/Sidebar.tsx`.
 
 ## Reviewer Feedback
-- No product scope mismatch found in inspected diff.
-- Warning noted: production build emits a non-fatal Next.js workspace-root warning due to multiple lockfiles including `C:\Users\14161\package-lock.json`. Not fixed because it is outside task scope.
+Pending Boss UI review. Self-check found no scope expansion: no avatar upload/edit profile/password hashing/broad auth refactor; no commit/push performed.
 
 ## Response To Feedback
-- Kept root warning unchanged; it does not block build and changing root config would be broader than this task.
+Pending.
 
 ## Next Action
-Closed: task verified and rollback point `139c66d` is available on GitHub.
+Boss reviews the running page; if accepted, create and push a GitHub rollback point.
