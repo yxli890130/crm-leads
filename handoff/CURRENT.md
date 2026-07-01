@@ -1,73 +1,82 @@
 # Task Handoff
 
 ## Task ID
-crm-leads-2026-07-01-user-center
+crm-leads-2026-07-01-permission-enforcement
 
 ## Owner
 WorkBuddy temporary Owner by Boss instruction
 
 ## Reviewer
-WorkBuddy Reviewer pass required after implementation; current state is review_requested, not committed.
+WorkBuddy Reviewer pass required after implementation; current status is review_requested.
 
 ## Status
 review_requested
 
 ## Goal
-Adjust the left-bottom user center in the CRM sidebar so it matches the existing system style and supports read-only user information, password change, and confirmed logout.
+Make the existing role permission configuration actually control CRM navigation visibility and direct page access. A sales supervisor must not see or access pages not granted by Role & Permission Management.
 
 ## Success Criteria
-- SC-1: The user center entry is in the left-bottom navigation area and shows username plus a default avatar; it must not move the existing `账号管理` navigation item.
-- SC-2: Clicking the entry opens a user information popover/modal styled consistently with the existing CRM UI, showing avatar, user name, role, phone number, and login time as read-only data.
-- SC-3: The password change action opens a modal with old password, new password, confirm password; invalid old password or mismatched new passwords show errors; valid submission updates the matching account in `data/accounts.json` through an API.
-- SC-4: Logout action opens a confirmation modal first; confirming clears local login state and routes to `/login`.
-- SC-5: Targeted ESLint passes for touched files and full `next build` passes.
-- SC-6: Git diff is limited to the user center and password-update API work.
+- SC-1: `账号管理` is included in the role permission model so it can be configured from Role & Permission Management.
+- SC-2: Default role data grants `账号管理` only to `管理员`; `销售主管` and `销售专员` do not get it by default. `销售主管` also does not get `角色与权限管理`.
+- SC-3: Sidebar filters menu items by current login user's page permissions; `销售主管` sees only 数据仪表盘、线索管理、商品管理、订单管理.
+- SC-4: Direct URL access is blocked for pages not in the current user's permissions; unauthorized users are routed away to an allowed page.
+- SC-5: Login page remains public and unauthenticated users still go to `/login`.
+- SC-6: Targeted ESLint and full `next build` pass.
+- SC-7: Git diff is limited to auth/permission enforcement and role seed data/handoff.
 
 ## Scope / Non-Scope
 In scope:
-- Sidebar user center UI and supporting modals.
-- Minimal account API extension for current-user password update.
-- Default avatar using existing UI style.
+- Minimal permission utility functions.
+- Sidebar filtering.
+- AuthGuard route-level permission checks.
+- Add `账号管理` to role permission configuration and admin default permissions.
 
 Non-scope:
-- Do not move `账号管理`.
-- Do not add avatar upload, editable profile, password hashing, or broad auth refactor.
-- Do not commit/push unless Boss explicitly confirms.
+- Do not implement function-level button permission enforcement in this pass.
+- Do not implement backend API authorization in this pass.
+- Do not redesign role management UI beyond exposing `账号管理` through existing permission table.
+- Do not commit/push unless Boss explicitly asks.
 
 ## Assumptions
-- Current auth state in localStorage is the source for current user id/phone/name/role/login time.
-- Account password is currently stored as plain text in `data/accounts.json`; update follows existing project architecture.
-- Default avatar is a styled circular avatar with the user's first-name character to avoid external assets/dependencies.
+- Permission `page` values are existing Chinese labels used by `ALL_PAGES` and `roles.json`.
+- `/` maps to `线索管理`, `/dashboard` to `数据仪表盘`, `/products` to `商品管理`, `/orders` to `订单管理`, `/roles` to `角色与权限管理`, `/accounts` to `账号管理`.
+- If a logged-in user lacks the current route, redirect to their first permitted route; fallback `/login` if none.
 
 ## Open Questions
 - None blocking.
 
 ## Files Changed
-- `src/components/Sidebar.tsx` — added left-bottom user center entry, user information popover, change-password modal, logout confirmation modal, and logout routing.
-- `src/app/api/accounts/route.ts` — added `PUT action=changePassword` branch validating old password and updating the matched account password.
-- `handoff/CURRENT.md` — recorded task scope and evidence.
+- `src/lib/permissions.ts` — added centralized nav items, page permission lookup, allowed-nav filtering, route-to-page mapping, and first-allowed-route helper.
+- `src/components/Sidebar.tsx` — replaced hard-coded menu rendering with `getAllowedNavItems(authState.user.permissions)` while preserving user center and account-management route when permitted.
+- `src/components/AuthGuard.tsx` — added route-level permission check after login check; unauthorized direct URL access redirects to first allowed route or `/login`.
+- `src/types/role.ts` — added `账号管理` to `ALL_PAGES`, making it configurable in Role & Permission Management.
+- `data/roles.json` — granted `账号管理` permissions to `管理员` only; left `销售主管` without `角色与权限管理` and `账号管理`.
+- `handoff/archive/crm-leads-2026-07-01-user-center.md` — archived prior user-center task handoff.
+- `handoff/CURRENT.md` — recorded this task.
 
 ## Commands Run
-- Read `AGENTS.md`, previous `handoff/CURRENT.md`, `src/components/Sidebar.tsx`, `src/app/api/accounts/route.ts`, `src/types/account.ts`, `data/accounts.json`, and related account modal/page files.
-- `eslint src/components/Sidebar.tsx src/app/api/accounts/route.ts` — exit 0.
-- `next build` — exit 0; route list includes `/accounts`, `/api/accounts`, `/api/auth/login`, `/login`, and core CRM pages.
-- Source readback script — confirmed account nav, user info, change password, logout confirm, readonly fields, API password submit, and `/login` redirect markers are present.
-- Password data write/read/restore script — temporarily changed `AC-2026-0001` password to `tmp-check-789`, read it back successfully, restored original `123123`, and verified no diff remains in `data/accounts.json`.
-- `git diff --stat && git diff --name-only && git status --short --branch` — shows only `handoff/CURRENT.md`, `src/app/api/accounts/route.ts`, `src/components/Sidebar.tsx` modified.
+- Read `AGENTS.md`, previous `handoff/CURRENT.md`, `AuthGuard.tsx`, `Sidebar.tsx`, `role.ts`, and `roles.json`.
+- `cp handoff/CURRENT.md handoff/archive/crm-leads-2026-07-01-user-center.md` — archived previous handoff.
+- `eslint src/lib/permissions.ts src/components/Sidebar.tsx src/components/AuthGuard.tsx src/types/role.ts` — exit 0.
+- `next build` — exit 0.
+- Node role/code readback — confirmed admin has `账号管理`; supervisor has neither `角色与权限管理` nor `账号管理`; specialist has no `账号管理`; Sidebar and AuthGuard use permission helpers.
+- Node role nav simulation — admin gets all six nav entries; supervisor gets `数据仪表盘,线索管理,商品管理,订单管理`; specialist gets `线索管理,商品管理,订单管理`.
+- Git diff/status check — changed files are role data/model, permission helpers, Sidebar, AuthGuard, and handoff/archive.
 
 ## Evidence
-- E-SC-1: Source readback reports `accountNav=true`; Sidebar still contains `{ label: '账号管理', href: '/accounts', disabled: false }`; user center entry remains in bottom block below nav.
-- E-SC-2: Source readback reports `userCenterPopover=true` and `readonlyFields=true`; UI uses existing CRM colors/borders/rounded/shadow/button styles.
-- E-SC-3: Source readback reports `changePassword=true` and `passwordSubmit=true`; API route has `action === 'changePassword'`, validates empty fields and old password, and updates account password. Data write/read/restore check returned `password-write-check=true` and `password-restored=true`.
-- E-SC-4: Source readback reports `logoutConfirm=true` and `logoutRoute=true`; confirm button calls logout, clears auth state, and routes to `/login`.
-- E-SC-5: Targeted ESLint exited 0; full `next build` exited 0.
-- E-SC-6: Git diff limited to `handoff/CURRENT.md`, `src/app/api/accounts/route.ts`, `src/components/Sidebar.tsx`.
+- E-SC-1: `src/types/role.ts` includes `{ key: '账号管理', label: '账号管理' }`; `src/lib/permissions.ts` maps `/accounts` to `账号管理`.
+- E-SC-2: Readback output: `admin-has-account=true`, `supervisor-has-roles=false`, `supervisor-has-account=false`, `specialist-has-account=false`.
+- E-SC-3: Sidebar uses `getAllowedNavItems(authState.user.permissions)`; nav simulation output: `supervisor-nav=数据仪表盘,线索管理,商品管理,订单管理`.
+- E-SC-4: AuthGuard uses `getPermissionPageByPath(pathname)`, `canViewPage(...)`, and `getFirstAllowedPath(...)` to redirect unauthorized direct access.
+- E-SC-5: AuthGuard still allows `/login` before auth checks and redirects unauthenticated users to `/login`.
+- E-SC-6: Targeted ESLint exited 0; full `next build` exited 0.
+- E-SC-7: Diff is limited to `data/roles.json`, `handoff/CURRENT.md`, `src/components/AuthGuard.tsx`, `src/components/Sidebar.tsx`, `src/types/role.ts`, plus new `src/lib/permissions.ts` and handoff archive.
 
 ## Reviewer Feedback
-Pending Boss UI review. Self-check found no scope expansion: no avatar upload/edit profile/password hashing/broad auth refactor; no commit/push performed.
+Self-check: function-level button permissions and backend API authorization are intentionally out of scope for this pass and remain future work.
 
 ## Response To Feedback
-Pending.
+Pending Boss review.
 
 ## Next Action
-Boss reviews the running page; if accepted, create and push a GitHub rollback point.
+Boss reviews behavior; if accepted, create and push a GitHub rollback point.

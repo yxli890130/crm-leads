@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { clearAuthState, getAuthState, type AuthState } from '@/lib/auth';
+import { getAllowedNavItems } from '@/lib/permissions';
 
 const fieldClass = 'w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-opacity-30 transition-all';
 const labelClass = 'block text-sm mb-1';
@@ -21,14 +22,7 @@ export default function Sidebar() {
   const [passwordSuccess, setPasswordSuccess] = useState('');
   const [savingPassword, setSavingPassword] = useState(false);
 
-  const items = [
-    { label: '数据仪表盘', href: '/dashboard', disabled: false },
-    { label: '线索管理', href: '/', disabled: false },
-    { label: '商品管理', href: '/products', disabled: false },
-    { label: '订单管理', href: '/orders', disabled: false },
-    { label: '角色管理', href: '/roles', disabled: false },
-    { label: '账号管理', href: '/accounts', disabled: false },
-  ];
+  const items = authState ? getAllowedNavItems(authState.user.permissions) : [];
 
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {

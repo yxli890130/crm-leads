@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { getAuthState } from '@/lib/auth';
+import { canViewPage, getFirstAllowedPath, getPermissionPageByPath } from '@/lib/permissions';
 
 interface AuthGuardProps {
   children: React.ReactNode;
@@ -20,8 +21,15 @@ export default function AuthGuard({ children }: AuthGuardProps) {
         return;
       }
 
-      if (!getAuthState()) {
+      const authState = getAuthState();
+      if (!authState) {
         router.replace('/login');
+        return;
+      }
+
+      const permissionPage = getPermissionPageByPath(pathname);
+      if (permissionPage && !canViewPage(authState.user.permissions, permissionPage)) {
+        router.replace(getFirstAllowedPath(authState.user.permissions) || '/login');
         return;
       }
 

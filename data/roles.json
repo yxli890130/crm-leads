@@ -53,6 +53,16 @@
           "delete"
         ],
         "dataScope": "all"
+      },
+      {
+        "page": "账号管理",
+        "functions": [
+          "view",
+          "edit",
+          "add",
+          "delete"
+        ],
+        "dataScope": "all"
       }
     ]
   },
@@ -88,6 +98,13 @@
           "edit",
           "add",
           "delete"
+        ],
+        "dataScope": "all"
+      },
+      {
+        "page": "数据仪表盘",
+        "functions": [
+          "view"
         ],
         "dataScope": "all"
       }
